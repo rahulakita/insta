@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ImageUploadController;
+use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +23,7 @@ Route::post('/login',[AuthController::class, 'login']);
 Route::middleware('auth:api')->group(function() {
     Route::get('/profile',[AuthController::class, 'profile']);
     Route::post('/logout',[AuthController::class, 'logout']);
+    Route::post('/upload',[ImageUploadController::class,'imageUpload']);
+    Route::get('/view',[ImageController::class, 'view']);
+    Route::get('/search',[SearchController::class, 'search']);
 });

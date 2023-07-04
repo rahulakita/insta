@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\image_upload;
 
 class AuthController extends Controller
 {
@@ -15,12 +16,18 @@ class AuthController extends Controller
     //save user
     public function register(Request $request)
     {
+        
+        $picture = $request -> image;
+        $pictureName = time().'.'.$picture->getClientOriginalExtension();
+        $path = public_path('upload');
+        $picture->move($path,$pictureName);
         $user = User::create([
             'username' => $request -> username,           
             'password' => Hash::make($request->password),
             'phone' => $request -> phone,
             'name' => $request -> name,
-            'birth' => $request -> birth
+            'birth' => $request -> birth,
+            'picture'=> $pictureName
         ]);
         return response () ->json([
             'status' => true,
@@ -54,7 +61,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'message'=> 'Profile pengguna.',
-            'user'=> Auth::user()
+            'user'=> Auth::user(),
         ], 200);
     }
 
